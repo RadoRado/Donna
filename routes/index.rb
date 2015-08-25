@@ -1,5 +1,5 @@
 class Donna < Sinatra::Base
   get '/' do
-    User.all.to_json
+    erb :index
   end
 end
