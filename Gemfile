@@ -3,6 +3,7 @@ gem "sinatra"
 gem "sinatra-activerecord"
 gem "sqlite3"
 gem "thin"
+gem 'bcrypt'
 
 group :development do
   gem "awesome_print"
