@@ -26,6 +26,12 @@ class UserRoutesTest < Minitest::Test
     assert last_response.ok?
   end
 
+  def test_user_list
+    get '/user/list'
+
+    assert last_response.ok?
+  end
+
   def test_register_with_missing_fields
     payload = {"name" => "Rado" }.to_json
 
@@ -44,7 +50,6 @@ class UserRoutesTest < Minitest::Test
     post '/user/register', payload
     body = JSON.parse(last_response.body)
 
-    p last_response.status
     assert last_response.ok?
     assert body.key? 'message'
   end
@@ -60,5 +65,56 @@ class UserRoutesTest < Minitest::Test
 
     assert_equal 422, last_response.status
     assert body.key? 'message'
+  end
+
+  def test_login_with_missing_email
+    payload = { "password" => "mylittlesecret"}.to_json
+    post '/user/login', payload
+
+    assert_equal 400, last_response.status
+  end
+
+  def test_login_with_missing_password
+    payload = { "email" => "radorado@hackbulgaria.com"}.to_json
+    post '/user/login', payload
+
+    assert_equal 400, last_response.status
+  end
+
+  def test_user_login_successfuly
+    payload = {"email" => "radorado@hackbulgaria.com",
+               "name" => "Rado",
+               "password" => "mylittlesecret"}.to_json
+
+    post '/user/register', payload
+    post '/user/login', payload
+
+    assert last_response.ok?
+  end
+
+  def test_user_login_with_wrong_password
+    payload = {"name" => "Rado",
+               "email" => "radorado@hackbulgaria.com",
+               "password" => "mylittlesecret"}.to_json
+
+    post '/user/register', payload
+
+    login_payload = {
+      'email' => 'radorado@hackbulgaria.com',
+      'password' => 'wrong'
+    }.to_json
+
+    post '/user/login', login_payload
+    assert_equal 403, last_response.status
+  end
+
+  def test_login_with_unexisting_user
+    login_payload = {
+      'email' => 'vasko@hackbulgaria.com',
+      'password' => 'wrong'
+    }.to_json
+
+    post '/user/login', login_payload
+    assert_equal 404, last_response.status
   end
 end

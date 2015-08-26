@@ -3,6 +3,14 @@ require 'bcrypt'
 
 class Donna < Sinatra::Base
 
+  def success_with_message(message)
+    { "message" => message }.to_json
+  end
+
+  def halt_with_message(status, message)
+    halt status, {"message" => message}.to_json
+  end
+
   before '/user/*' do
     content_type 'application/json'
 
@@ -13,11 +21,11 @@ class Donna < Sinatra::Base
 
   post '/user/register' do
     unless ["name", "email", "password"].all? { |key| @request_data.key? key }
-      halt 400, { "message" => "Missing fields" }.to_json
+      halt_with_message(400, "Missing fields")
     end
 
     if User.find_by email: @request_data["email"]
-      halt 422, { "message" => "User already exists" }.to_json
+      halt_with_message(422, "User already exists")
     end
 
     password_salt = BCrypt::Engine.generate_salt
@@ -27,7 +35,7 @@ class Donna < Sinatra::Base
                        password: password_hash, password_salt: password_salt)
     user.save
 
-    { "message" =>  "User registered" }.to_json
+    success_with_message("User registered")
   end
 
   post '/user/login' do
