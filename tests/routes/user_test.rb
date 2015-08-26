@@ -2,9 +2,20 @@ require_relative '../test_helper'
 require_relative '../../app'
 require 'minitest/autorun'
 require 'rack/test'
+require 'database_cleaner'
+
+DatabaseCleaner.strategy = :transaction
 
 class UserRoutesTest < Minitest::Test
   include Rack::Test::Methods
+
+  def setup
+    DatabaseCleaner.start
+  end
+
+  def teardown
+    DatabaseCleaner.clean
+  end
 
   def app
     Donna.new
@@ -33,6 +44,7 @@ class UserRoutesTest < Minitest::Test
     post '/user/register', payload
     body = JSON.parse(last_response.body)
 
+    p last_response.status
     assert last_response.ok?
     assert body.key? 'message'
   end

@@ -9,6 +9,7 @@ group :development do
   gem "awesome_print"
   gem "shotgun"
   gem "rake"
+  gem 'database_cleaner'
 end
 
 group :test do
