@@ -1,5 +1,5 @@
-require_relative '../../app'
 require_relative '../test_helper'
+require_relative '../../app'
 require 'minitest/autorun'
 require 'rack/test'
 
@@ -23,5 +23,30 @@ class UserRoutesTest < Minitest::Test
 
     assert_equal 400, last_response.status
     assert body.key? "message"
+  end
+
+  def test_register_successfully
+    payload = {"name" => "Rado",
+               "email" => "radorado@hackbulgaria.com",
+               "password" => "mylittlesecret"}.to_json
+
+    post '/user/register', payload
+    body = JSON.parse(last_response.body)
+
+    assert last_response.ok?
+    assert body.key? 'message'
+  end
+
+  def test_register_existing_user
+    payload = {"name" => "Rado",
+               "email" => "radorado@hackbulgaria.com",
+               "password" => "mylittlesecret"}.to_json
+
+    post '/user/register', payload
+    post '/user/register', payload
+    body = JSON.parse(last_response.body)
+
+    assert_equal 422, last_response.status
+    assert body.key? 'message'
   end
 end

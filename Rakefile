@@ -11,6 +11,9 @@ namespace :test do
   desc 'Run tests on routes'
 
   task :routes do
+    ENV['RACK_ENV'] = 'test'
+    Rake::Task["db:drop"].invoke
+    Rake::Task["db:migrate"].invoke
     ruby 'tests/routes/*_test.rb'
   end
 end
