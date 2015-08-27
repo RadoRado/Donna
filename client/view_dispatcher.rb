@@ -35,6 +35,7 @@ module DonnaClient
 
     def dispatch
       loop do
+        system 'clear'
         next_view = @views[@current_view].new.take_control
 
         return if next_view.nil?

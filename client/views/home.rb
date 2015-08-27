@@ -6,8 +6,10 @@ module DonnaClient
         loop do
           puts render
           command = STDIN.gets
+          command = command.strip
 
-          return :register if command.strip == "next"
+          return :login if command == "login"
+          return :register if command == "register"
         end
       end
 
