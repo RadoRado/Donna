@@ -2,7 +2,7 @@ require 'json'
 require 'http'
 require 'yaml'
 
-require_relative 'views/view_dispatcher'
+require_relative 'view_dispatcher'
 
 module DonnaClient
   class << self

@@ -26,3 +26,5 @@ module DonnaClient
     end
   end
 end
+
+DonnaClient::Views.register_view(:home, DonnaClient::Views::Home)

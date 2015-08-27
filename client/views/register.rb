@@ -7,3 +7,5 @@ module DonnaClient
     end
   end
 end
+
+DonnaClient::Views.register_view(:register, DonnaClient::Views::Register)
