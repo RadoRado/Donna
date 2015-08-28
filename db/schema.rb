@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150828201229) do
+ActiveRecord::Schema.define(version: 20150828202245) do
 
   create_table "contacts", force: :cascade do |t|
     t.string  "name"
@@ -27,7 +27,12 @@ ActiveRecord::Schema.define(version: 20150828201229) do
     t.string   "schedule"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+    t.integer  "contact_id"
+    t.integer  "user_id"
   end
+
+  add_index "ping_rules", ["contact_id"], name: "index_ping_rules_on_contact_id"
+  add_index "ping_rules", ["user_id"], name: "index_ping_rules_on_user_id"
 
   create_table "pings", force: :cascade do |t|
     t.datetime "target_week"
