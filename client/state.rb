@@ -8,6 +8,14 @@ module DonnaClient
       @conf[key]
     end
 
+    def user=(user)
+      @user = user
+    end
+
+    def user
+      @user
+    end
+
     def conf=(configuration)
       @conf = configuration
     end

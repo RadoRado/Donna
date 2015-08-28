@@ -22,9 +22,11 @@ module DonnaClient
         }
 
         r = HTTP.post(DonnaClient::State["api_url"] + '/user/login', :json => payload)
-        body = JSON.parse(r.body.to_s)
-        p body
-        return r.status == 200
+
+        return false unless r.status == 200
+
+        DonnaClient::State.user = DonnaClient::Models::User.new JSON.parse(r.body.to_s)
+        true
       end
     end
   end

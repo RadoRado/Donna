@@ -14,7 +14,7 @@ module DonnaClient
           email, password = [email, password].map(&:strip)
 
           if DonnaClient::Controllers::User.login email, password
-            sleep 5
+            sleep 2
             return :profile
           end
 
