@@ -10,6 +10,8 @@ module DonnaClient
 
           puts render({ name: user.name, today: Time.now.strftime("%d/%m/%Y %H:%M") })
           command = STDIN.gets
+
+          return :sync if command.strip == "sync"
         end
       end
     end
