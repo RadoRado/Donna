@@ -1,6 +1,6 @@
-require 'sinatra/activerecord'
-
 class User < ActiveRecord::Base
+  has_many :contacts, dependent: :destroy
+
   def public_user
     return {
       id: self.id,
