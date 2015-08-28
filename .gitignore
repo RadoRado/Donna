@@ -36,3 +36,4 @@ build/
 
 *.swp
 *.swo
+config/local_settings.yml
