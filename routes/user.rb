@@ -3,13 +3,6 @@ require 'bcrypt'
 
 class Donna < Sinatra::Base
 
-  def success_with_message(message)
-    { "message" => message }.to_json
-  end
-
-  def halt_with_message(status, message)
-    halt status, {"message" => message}.to_json
-  end
 
   before '/user/*' do
     content_type 'application/json'
@@ -40,24 +33,35 @@ class Donna < Sinatra::Base
 
   post '/user/login' do
     unless ["email", "password"].all? { |key| @request_data.key? key }
-      halt 400, {"message" => "Missing fields" }.to_json
+      halt_with_message(400, "Missing fields")
     end
 
     user = User.find_by email: @request_data["email"]
 
     unless user
-      halt 404, {"message" => "User not found"}.to_json
+      halt_with_message(404, "User not found")
     end
 
     unless user.password == BCrypt::Engine.hash_secret(@request_data["password"], user.password_salt)
-      halt 403, {"message" => "Wrong username/password"}.to_json
+      halt_with_message(403, "Wrong username/password")
     end
 
-    p user.public_user
     user.public_user.to_json
   end
 
   get '/user/list' do
     User.all.select(:id, :name, :email).to_json
+  end
+
+
+  get '/user/contact/:user_id' do
+    user = User.find_by(id: params['user_id'])
+    halt_with_message(404, "User not found") unless user
+
+    user.contacts.to_json
+  end
+
+  post '/user/contact' do
+
   end
 end

@@ -35,7 +35,7 @@ class Donna < Sinatra::Base
   end
 
   get '/sync/google' do
-    return halt 404 unless params.key? "userId"
+    return halt_with_message(404, "userId is required") unless params.key? "userId"
 
     @url = @url + "&state=#{params['userId']}"
 
