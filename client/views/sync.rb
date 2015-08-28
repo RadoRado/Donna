@@ -3,7 +3,8 @@ module DonnaClient
     class Sync < DonnaClient::Views::BaseView
 
       def take_control
-        url = DonnaClient::Controllers::Sync.get_google_sync_url
+        user = DonnaClient::State.user
+        url = DonnaClient::Controllers::Sync.get_google_sync_url user.id
         puts render({ url: url })
         loop do
           command = STDIN.gets

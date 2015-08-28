@@ -1,3 +1,4 @@
+require 'uri'
 require 'json'
 require 'oauth2'
 require 'google_contacts_api'
@@ -27,14 +28,18 @@ class Donna < Sinatra::Base
     result = []
 
     google_contacts.contacts.each do |contact|
-      result << "#{contact.full_name.to_s} - #{contact.emails.to_s}"
+      result << "#{contact.full_name.to_s} - #{contact.primary_email.to_s}"
     end
 
     result.join('<br />')
   end
 
   get '/sync/google' do
+    return halt 404 unless params.key? "userId"
+
+    @url = @url + "&state=#{params['userId']}"
+
     content_type 'application/json'
-    { url: @url }.to_json
+    { url: URI.encode(@url) }.to_json
   end
 end
