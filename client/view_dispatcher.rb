@@ -23,18 +23,6 @@ module DonnaClient
     def initialize(start_view)
       @current_view = start_view
       @views = DonnaClient::Views.views
-
-      load(:models)
-      load(:controllers)
-      load(:views)
-    end
-
-    def load(what)
-      Dir["#{what}/*.rb"].each do |file|
-        without_extension = File.basename(file, '.rb')
-
-        require_relative "#{what}/#{without_extension}"
-      end
     end
 
     def dispatch
