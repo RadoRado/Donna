@@ -11,7 +11,8 @@ module DonnaClient
           puts render({ name: user.name, today: Time.now.strftime("%d/%m/%Y %H:%M") })
           command = STDIN.gets
 
-          return :sync if command.strip == "sync"
+          return :sync if command.strip == 'sync'
+          return :ping if command.strip == 'ping'
         end
       end
     end

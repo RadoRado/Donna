@@ -3,6 +3,10 @@ module DonnaClient
     module User
       extend self
 
+      def get_contacts(user)
+        return []
+      end
+
       def register(name, email, password)
         payload = {
           "name" => name,
