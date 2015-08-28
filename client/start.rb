@@ -2,20 +2,18 @@ require 'json'
 require 'http'
 require 'yaml'
 
-require_relative 'state'
-require_relative 'view_dispatcher'
-
 module DonnaClient
   class << self
     def start
       configuration = YAML::load_file(File.join(__dir__, 'config.yml'))
-      DonnaClient::State.conf = configuration
 
       load(:framework)
       load(:helpers)
       load(:models)
       load(:controllers)
       load(:views)
+
+      DonnaClient::State.conf = configuration
 
       vd = ViewDispatcher.new :home
       vd.dispatch
