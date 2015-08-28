@@ -8,6 +8,10 @@ module DonnaClient
       def register_view(view_name, view_class)
         views[view_name] = view_class
       end
+
+      def trim_lines(content)
+        content.split("\n").map(&:strip).join("\n")
+      end
     end
   end
 end
@@ -15,21 +19,21 @@ end
 module DonnaClient
   class ViewDispatcher
     attr_reader :current_view
-    attr_accessor :configuration
 
-    def initialize(start_view, configuration)
+    def initialize(start_view)
       @current_view = start_view
-      @configuration = configuration
       @views = DonnaClient::Views.views
 
-      load_views
+      load(:models)
+      load(:controllers)
+      load(:views)
     end
 
-    def load_views
-      Dir['views/*.rb'].each do |view_file|
-        view_name = File.basename(view_file, '.rb')
+    def load(what)
+      Dir["#{what}/*.rb"].each do |file|
+        without_extension = File.basename(file, '.rb')
 
-        require_relative "views/#{view_name}"
+        require_relative "#{what}/#{without_extension}"
       end
     end
 
