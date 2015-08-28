@@ -19,11 +19,9 @@ module DonnaClient
           Enter the following commands, case insensitive, to proceed:
           1) Register
           2) Login
-          For example, enter:
-          login
         CONTENT
 
-        content.split("\n").map(&:strip).join("\n")
+        DonnaClient::Views.trim_lines content
       end
     end
   end
