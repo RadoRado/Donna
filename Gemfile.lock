@@ -16,14 +16,33 @@ GEM
       tzinfo (~> 1.1)
     arel (6.0.3)
     awesome_print (1.6.1)
+    backports (3.6.6)
     bcrypt (3.1.10)
     builder (3.2.2)
     daemons (1.2.3)
     database_cleaner (1.4.1)
     eventmachine (1.0.8)
+    faraday (0.9.1)
+      multipart-post (>= 1.2, < 3)
+    google_contacts_api (0.7.0)
+      activesupport
+      hashie
+      i18n
+      json
+    hashie (3.4.2)
     i18n (0.7.0)
     json (1.8.3)
+    jwt (1.5.1)
     minitest (5.8.0)
+    multi_json (1.11.2)
+    multi_xml (0.5.5)
+    multipart-post (2.0.0)
+    oauth2 (1.0.0)
+      faraday (>= 0.8, < 0.10)
+      jwt (~> 1.0)
+      multi_json (~> 1.3)
+      multi_xml (~> 0.5)
+      rack (~> 1.2)
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
@@ -39,6 +58,13 @@ GEM
     sinatra-activerecord (2.0.8)
       activerecord (>= 3.2)
       sinatra (~> 1.0)
+    sinatra-contrib (1.4.6)
+      backports (>= 2.0)
+      multi_json
+      rack-protection
+      rack-test
+      sinatra (~> 1.4.0)
+      tilt (>= 1.3, < 3)
     sqlite3 (1.3.10)
     thin (1.6.3)
       daemons (~> 1.0, >= 1.0.9)
@@ -56,11 +82,14 @@ DEPENDENCIES
   awesome_print
   bcrypt
   database_cleaner
+  google_contacts_api
+  oauth2
   rack-test
   rake
   shotgun
   sinatra
   sinatra-activerecord
+  sinatra-contrib
   sqlite3
   thin
 
