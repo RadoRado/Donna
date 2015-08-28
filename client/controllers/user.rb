@@ -4,7 +4,9 @@ module DonnaClient
       extend self
 
       def get_contacts(user)
-        return []
+        r = HTTP.get(DonnaClient::State['api_url'] + '/user/contact/' + user.id.to_s)
+        return [] unless r.status == 200
+        return JSON.parse(r.body.to_s)
       end
 
       def register(name, email, password)
