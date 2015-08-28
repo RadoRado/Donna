@@ -52,6 +52,9 @@ class Donna < Sinatra::Base
     unless user.password == BCrypt::Engine.hash_secret(@request_data["password"], user.password_salt)
       halt 403, {"message" => "Wrong username/password"}.to_json
     end
+
+    p user.public_user
+    user.public_user.to_json
   end
 
   get '/user/list' do
