@@ -8,10 +8,6 @@ module DonnaClient
       def register_view(view_name, view_class)
         views[view_name] = view_class
       end
-
-      def trim_lines(content)
-        content.split("\n").map(&:strip).join("\n")
-      end
     end
   end
 end

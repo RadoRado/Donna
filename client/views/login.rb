@@ -1,9 +1,9 @@
 module DonnaClient
   module Views
-    class Login
+    class Login < DonnaClient::Views::BaseView
       def take_control
         loop do
-          puts render
+          puts render({})
 
           puts "Your email:"
           email = STDIN.gets
@@ -20,14 +20,6 @@ module DonnaClient
 
           puts "Wrong username/password! Try again"
         end
-      end
-
-      def render
-        content = <<-CONTENT
-          In order to login, please provide email ans password:
-        CONTENT
-
-        DonnaClient::Views.trim_lines content
       end
     end
   end

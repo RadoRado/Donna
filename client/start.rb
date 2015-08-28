@@ -11,6 +11,8 @@ module DonnaClient
       configuration = YAML::load_file(File.join(__dir__, 'config.yml'))
       DonnaClient::State.conf = configuration
 
+      load(:framework)
+      load(:helpers)
       load(:models)
       load(:controllers)
       load(:views)

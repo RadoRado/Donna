@@ -1,21 +1,14 @@
 module DonnaClient
   module Views
-    class Profile
+    class Profile < DonnaClient::Views::BaseView
 
       def take_control
         loop do
           user = DonnaClient::State.user
 
-          puts user.id
-          puts user.name
-          puts user.email
-
-          puts render
+          puts render({ name: user.name })
           command = STDIN.gets
         end
-      end
-
-      def render
       end
     end
   end

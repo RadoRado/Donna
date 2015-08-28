@@ -1,9 +1,9 @@
 module DonnaClient
   module Views
-    class Register
+    class Register < DonnaClient::Views::BaseView
       def take_control
         loop do
-          puts render
+          puts render({})
 
           puts "Your name:"
           name = STDIN.gets
@@ -20,15 +20,6 @@ module DonnaClient
           DonnaClient::Controllers::User.register name, email, password
           return :home
         end
-      end
-
-      def render
-        content = <<-CONTENT
-          This is the register view.
-          It will require your name, email and password.
-        CONTENT
-
-        DonnaClient::Views.trim_lines content
       end
     end
   end
