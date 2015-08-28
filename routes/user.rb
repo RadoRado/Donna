@@ -60,8 +60,4 @@ class Donna < Sinatra::Base
 
     user.contacts.to_json
   end
-
-  post '/user/contact' do
-
-  end
 end
