@@ -25,13 +25,22 @@ class Donna < Sinatra::Base
     token = @client.auth_code.get_token(params["code"], :redirect_uri => REDIRECT_URI)
     google_contacts = GoogleContactsApi::User.new(token)
 
-    result = []
+    user = User.find_by(id: params['state'])
+    total_contacts = 0
 
-    google_contacts.contacts.each do |contact|
-      result << "#{contact.full_name.to_s} - #{contact.primary_email.to_s}"
+    halt_with_message(404, "User not found") unless user
+
+    non_empty_contacts = google_contacts.contacts.reject do |contact|
+      contact.full_name.to_s.empty? || contact.primary_email.to_s.empty?
+    end
+    .map do |contact|
+      total_contacts += 1
+      user.contacts.build(name: contact.full_name, email: contact.primary_email)
     end
 
-    result.join('<br />')
+    user.save
+
+    success_with_message("#{total_contacts} contacts imported")
   end
 
   get '/sync/google' do
