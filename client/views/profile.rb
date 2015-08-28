@@ -1,3 +1,5 @@
+require 'time'
+
 module DonnaClient
   module Views
     class Profile < DonnaClient::Views::BaseView
@@ -6,7 +8,7 @@ module DonnaClient
         loop do
           user = DonnaClient::State.user
 
-          puts render({ name: user.name })
+          puts render({ name: user.name, today: Time.now.strftime("%d/%m/%Y %H:%M") })
           command = STDIN.gets
         end
       end
