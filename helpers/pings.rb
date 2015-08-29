@@ -2,6 +2,15 @@ require 'time'
 
 module Sinatra
   module PingHelper
+    def ping_between(ping, start_date, end_date)
+      test_date = ping.target_day
+
+      start_date = get_start_and_of_week(start_date)[0]
+      end_date = get_start_and_of_week(end_date)[1]
+
+      return start_date <= test_date && end_date >= test_date
+    end
+
     def get_start_and_of_week(day)
       monday = day - (day.wday - 1) % 7
       sunday = monday + 6
@@ -41,10 +50,6 @@ module Sinatra
 
       target_week_start, target_week_end = get_start_and_of_week today_in_future
       density = get_pings_for_user_between ping_rule, target_week_start, target_week_end
-
-      p density
-      p density.rindex(density.min)
-
       target_day = target_week_start + density.rindex(density.min)
 
       ping = Ping.create(target_day: target_day, target_week: target_week_start, ping_rule: ping_rule)

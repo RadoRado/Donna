@@ -8,6 +8,21 @@ class Donna < Sinatra::Base
     @request_data = JSON.parse(request.body.read.to_s)
   end
 
+  get '/ping/:user_id/:n_weeks_from_now' do
+    today = Date.today
+    pings_until = today + params['n_weeks_from_now'].to_i * 7
+
+    p today
+    p pings_until
+
+    pings = Ping.all.order(:target_day).select do |ping|
+      ping.ping_rule.user.id == params['user_id'].to_i && ping_between(ping, today, pings_until)
+    end
+
+    pings.to_json
+  end
+
+
   post '/ping/create' do
     unless ["contact_id", "times_a_month", "consecutive_months", "schedule"].all? { |key| @request_data.key? key }
       halt_with_message(400, "Missing fields")
