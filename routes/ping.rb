@@ -9,10 +9,22 @@ class Donna < Sinatra::Base
   end
 
   post '/ping/create' do
-    unless ["contact_id", "times_a_month", "how_many_months", "schedule"].all? { |key| @request_data.key? key }
+    unless ["contact_id", "times_a_month", "consecutive_months", "schedule"].all? { |key| @request_data.key? key }
       halt_with_message(400, "Missing fields")
     end
     # Should be done elswhere, not on HTTP call
     # But this will be fixed in the future
+
+    c = Contact.find_by(id: @request_data['contact_id'])
+    halt_with_message(404, "Contact not found") unless c
+
+    pr = PingRule.create(times_a_month: @request_data['times_a_month'],
+                         consecutive_months: @request_data['consecutive_months'],
+                         schedule: @request_data['schedule'],
+                         contact: c)
+    pr.save
+    figure_out_pings_for pr
+
+    success_with_message('Ping rule created')
   end
 end

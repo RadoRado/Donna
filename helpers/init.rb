@@ -1,1 +1,2 @@
-require_relative 'halts.rb'
+require_relative 'halts'
+require_relative 'pings'
