@@ -8,11 +8,12 @@ module DonnaClient
         loop do
           user = DonnaClient::State.user
 
-          puts render({ name: user.name, today: Time.now.strftime("%d/%m/%Y %H:%M") })
-          command = STDIN.gets
+          puts render({ name: user.name, today: Time.now.strftime('%d/%m/%Y %H:%M') })
+          command = STDIN.gets.strip
 
-          return :sync if command.strip == 'sync'
-          return :ping if command.strip == 'ping'
+          return :sync if command== 'sync'
+          return :ping if command== 'ping'
+          return :agenda if command == 'agenda'
         end
       end
     end

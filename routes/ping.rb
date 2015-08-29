@@ -15,11 +15,22 @@ class Donna < Sinatra::Base
     p today
     p pings_until
 
+    result = []
+
     pings = Ping.all.order(:target_day).select do |ping|
       ping.ping_rule.user.id == params['user_id'].to_i && ping_between(ping, today, pings_until)
     end
+    .each do |ping|
+      current = {}
+      current[:ping_id] = ping.id
+      current[:target_day] = ping.target_day
+      current[:contact_name] = ping.ping_rule.contact.name
+      current[:contact_email] = ping.ping_rule.contact.email
 
-    pings.to_json
+      result << current
+    end
+
+    result.to_json
   end
 
 
