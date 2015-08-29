@@ -23,15 +23,7 @@ module DonnaClient
         end
       end
 
-      def take_control
-        @user = DonnaClient::State.user
-        @contacts = DonnaClient::Controllers::User.get_contacts @user
-
-        puts render({contacts_count: @contacts.length})
-
-        contact_id = autocomplete_contact
-        puts contact_id
-
+      def collect_ping_information
         puts "How many times a month?"
         times_a_month = STDIN.gets.strip.to_i
 
@@ -39,14 +31,27 @@ module DonnaClient
         consecutive_months = STDIN.gets.strip.to_i
 
         puts "When to schedule the ping? (soon|later|far)"
-        when_to_schedule = STDIN.gets.strip
+        schedule = STDIN.gets.strip
 
-        ping = DonnaClient::Controllers::Ping.make_a_ping(contact_id, times_a_month, consecutive_months, when_to_schedule)
-        ping = ping['ping']
-        p ping
+        { times_a_month: times_a_month, consecutive_months: consecutive_months, schedule: schedule }
+      end
+
+      def take_control
+        @contacts = DonnaClient::Controllers::User.get_contacts DonnaClient::State.user
+
+        puts render({contacts_count: @contacts.length})
+
+        contact_id = autocomplete_contact
+        ping_payload = collect_ping_information
+
+        ping_payload[:contact_id] = contact_id
+        ping = DonnaClient::Controllers::Ping.make_a_ping ping_payload
+
         puts "Ping created. Rest assured that you will be reminded"
         puts "Ping set for #{ping["target_day"]}"
-        sleep 5
+
+        puts "Pres any key to continue ..."
+        STDIN.gets
 
         :profile
       end
