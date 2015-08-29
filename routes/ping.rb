@@ -21,10 +21,10 @@ class Donna < Sinatra::Base
     pr = PingRule.create(times_a_month: @request_data['times_a_month'],
                          consecutive_months: @request_data['consecutive_months'],
                          schedule: @request_data['schedule'],
-                         contact: c)
+                         contact: c,
+                         user: c.user)
     pr.save
-    figure_out_pings_for pr
-
-    success_with_message('Ping rule created')
+    ping = figure_out_pings_for pr
+    success_with_object({ ping: ping.to_json})
   end
 end
