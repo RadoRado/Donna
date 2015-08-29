@@ -41,8 +41,12 @@ module DonnaClient
         puts "When to schedule the ping? (soon|later|far)"
         when_to_schedule = STDIN.gets.strip
 
-        DonnaClient::Controllers::Ping.make_a_ping(contact_id, times_a_month, consecutive_months, when_to_schedule)
+        ping = DonnaClient::Controllers::Ping.make_a_ping(contact_id, times_a_month, consecutive_months, when_to_schedule)
+        ping = ping['ping']
+        p ping
         puts "Ping created. Rest assured that you will be reminded"
+        puts "Ping set for #{ping["target_day"]}"
+        sleep 5
 
         :profile
       end

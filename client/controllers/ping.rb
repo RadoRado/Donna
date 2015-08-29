@@ -11,9 +11,10 @@ module DonnaClient
           'schedule' => schedule
         }
         r = HTTP.post(DonnaClient::State['api_url'] + '/ping/create', :json => payload)
-        p r.status
-        p r.body.to_s
-        sleep 10
+
+        return nil unless r.status == 200
+
+        JSON.parse(r.body.to_s)
       end
     end
   end

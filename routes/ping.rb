@@ -25,6 +25,6 @@ class Donna < Sinatra::Base
                          user: c.user)
     pr.save
     ping = figure_out_pings_for pr
-    success_with_object({ ping: ping.to_json})
+    success_with_object({ ping: ping })
   end
 end
