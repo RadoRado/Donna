@@ -1,3 +1,5 @@
+# rubocop:disable Style/Documentation
+
 module DonnaClient
   module Views
     class << self
@@ -21,19 +23,23 @@ module DonnaClient
       @views = DonnaClient::Views.views
     end
 
+    def cant_find_view
+      unless @views.key? next_view
+        puts "Cannot find view for #{next_view}"
+        puts 'Quiting now.'
+        false
+      end
+
+      true
+    end
+
     def dispatch
       loop do
         system 'clear'
         next_view = @views[@current_view].new.take_control
 
         return if next_view.nil?
-
-        unless @views.key? next_view
-          puts "Cannot find view for #{next_view}"
-          puts "Quiting now."
-          return
-        end
-
+        return if cant_find_view next_view
         @current_view = next_view
       end
     end

@@ -1,3 +1,5 @@
+# rubocop:disable Style/Documentation
+
 module DonnaClient
   module Controllers
     module User
@@ -6,28 +8,29 @@ module DonnaClient
       def get_contacts(user)
         r = HTTP.get(DonnaClient::State['api_url'] + '/user/contact/' + user.id.to_s)
         return [] unless r.status == 200
-        return JSON.parse(r.body.to_s)
+
+        JSON.parse(r.body.to_s)
       end
 
       def register(name, email, password)
         payload = {
-          "name" => name,
-          "email" => email,
-          "password" => password
+          'name' => name,
+          'email' => email,
+          'password' => password
         }
 
-        r = HTTP.post(DonnaClient::State["api_url"] + '/user/register', :json => payload)
+        r = HTTP.post(DonnaClient::State['api_url'] + '/user/register', json: payload)
         p r.status
         p JSON.parse(r.body.to_s)
       end
 
       def login(email, password)
         payload = {
-          "email" => email,
-          "password" => password
+          'email' => email,
+          'password' => password
         }
 
-        r = HTTP.post(DonnaClient::State["api_url"] + '/user/login', :json => payload)
+        r = HTTP.post(DonnaClient::State['api_url'] + '/user/login', :json => payload)
 
         return false unless r.status == 200
 

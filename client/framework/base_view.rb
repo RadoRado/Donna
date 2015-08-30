@@ -1,3 +1,5 @@
+# rubocop:disable Style/Documentation
+
 require 'mustache'
 
 module DonnaClient

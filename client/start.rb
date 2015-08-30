@@ -1,3 +1,5 @@
+# rubocop:disable Style/Documentation
+
 require 'json'
 require 'http'
 require 'yaml'
@@ -5,7 +7,7 @@ require 'yaml'
 module DonnaClient
   class << self
     def start
-      configuration = YAML::load_file(File.join(__dir__, 'config.yml'))
+      configuration = YAML.load_file(File.join(__dir__, 'config.yml'))
 
       load(:framework)
       load(:helpers)
@@ -29,4 +31,4 @@ module DonnaClient
   end
 end
 
-DonnaClient::start
+DonnaClient.start

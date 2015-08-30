@@ -1,3 +1,5 @@
+# rubocop:disable Style/Documentation
+
 module DonnaClient
   module Controllers
     module Agenda

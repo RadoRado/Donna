@@ -1,5 +1,4 @@
-# Holds the program state - like current user, configuration, session tokens, etc.
-
+# rubocop:disable Style/Documentation
 module DonnaClient
   module State
     extend self
