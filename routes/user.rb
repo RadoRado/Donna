@@ -1,9 +1,9 @@
+# rubocop:disable Style/Documentation
+
 require 'json'
 require 'bcrypt'
 
 class Donna < Sinatra::Base
-
-
   before '/user/*' do
     content_type 'application/json'
 
@@ -13,7 +13,7 @@ class Donna < Sinatra::Base
   end
 
   post '/user/register' do
-    unless ['name', 'email', 'password'].all? { |key| @request_data.key? key }
+    unless %w(name, email, password).all? { |key| @request_data.key? key }
       halt_with_message(400, 'Missing fields')
     end
 
@@ -22,9 +22,11 @@ class Donna < Sinatra::Base
     end
 
     password_salt = BCrypt::Engine.generate_salt
-    password_hash = BCrypt::Engine.hash_secret(@request_data['password'], password_salt)
+    password_hash = BCrypt::Engine.hash_secret(@request_data['password'],
+                                               password_salt)
 
-    user = User.create(email: @request_data['email'], name: @request_data['name'],
+    user = User.create(email: @request_data['email'],
+                       name: @request_data['name'],
                        password: password_hash, password_salt: password_salt)
     user.save
 
@@ -32,17 +34,18 @@ class Donna < Sinatra::Base
   end
 
   post '/user/login' do
-    unless ['email', 'password'].all? { |key| @request_data.key? key }
+    unless %w(email, password).all? { |key| @request_data.key? key }
       halt_with_message(400, 'Missing fields')
     end
 
     user = User.find_by email: @request_data['email']
 
-    unless user
-      halt_with_message(404, 'User not found')
-    end
+    halt_with_message(404, 'User not found') unless User
 
-    unless user.password == BCrypt::Engine.hash_secret(@request_data['password'], user.password_salt)
+    unless user.password == BCrypt::Engine.hash_secret(
+      @request_data['password'],
+      user.password_salt)
+
       halt_with_message(403, 'Wrong username/password')
     end
 
@@ -52,7 +55,6 @@ class Donna < Sinatra::Base
   get '/user/list' do
     User.all.select(:id, :name, :email).to_json
   end
-
 
   get '/user/contact/:user_id' do
     user = User.find_by(id: params['user_id'])

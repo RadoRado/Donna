@@ -1,3 +1,5 @@
+# rubocop:disable Style/Documentation
+
 require 'time'
 
 module Sinatra
@@ -8,14 +10,14 @@ module Sinatra
       start_date = get_start_and_of_week(start_date)[0]
       end_date = get_start_and_of_week(end_date)[1]
 
-      return start_date <= test_date && end_date >= test_date
+      start_date <= test_date && end_date >= test_date
     end
 
     def get_start_and_of_week(day)
       monday = day - (day.wday - 1) % 7
       sunday = monday + 6
 
-      return [monday, sunday]
+      [monday, sunday]
     end
 
     def get_pings_for_user_between(ping_rule, begin_of_week, end_of_week)
@@ -24,9 +26,10 @@ module Sinatra
 
       rules.each do |rule|
         rule.pings.each do |ping|
-          if ping.target_week >= begin_of_week || ping.target_week + 6 <= end_of_week
-            index_of_day = ping.target_day.to_date.cwday - 1
+          if ping.target_week >= begin_of_week || \
+            ping.target_week + 6 <= end_of_week
 
+            index_of_day = ping.target_day.to_date.cwday - 1
             pings_density[index_of_day] += 1
           end
         end
@@ -52,7 +55,9 @@ module Sinatra
       density = get_pings_for_user_between ping_rule, target_week_start, target_week_end
       target_day = target_week_start + density.rindex(density.min)
 
-      ping = Ping.create(target_day: target_day, target_week: target_week_start, ping_rule: ping_rule)
+      ping = Ping.create(target_day: target_day,
+                         target_week: target_week_start,
+                         ping_rule: ping_rule)
       ping.save
       ping
     end
