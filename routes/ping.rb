@@ -36,13 +36,14 @@ class Donna < Sinatra::Base
     result.to_json
   end
 
+  # Should be done elswhere, not on HTTP call
+  # But this will be fixed in the future
   post '/ping/create' do
     require_fields = %w(contact_id, times_a_month, consecutive_months, schedule)
+
     unless require_fields.all? { |key| @request_data.key? key }
       halt_with_message(400, 'Missing fields')
     end
-    # Should be done elswhere, not on HTTP call
-    # But this will be fixed in the future
 
     c = Contact.find_by(id: @request_data['contact_id'])
     halt_with_message(404, 'Contact not found') unless c
@@ -54,7 +55,7 @@ class Donna < Sinatra::Base
                        contact: c,
                        user: c.user)
     pr.save
-    ping = figure_out_pings_for pr
-    success_with_object(ping: ping)
+    pings = pr.figure_out_pings
+    success_with_object(pings: pings)
   end
 end
