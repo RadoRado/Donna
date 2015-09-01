@@ -23,7 +23,7 @@ module DonnaClient
       @views = DonnaClient::Views.views
     end
 
-    def cant_find_view
+    def view?(next_view)
       unless @views.key? next_view
         puts "Cannot find view for #{next_view}"
         puts 'Quiting now.'
@@ -39,7 +39,8 @@ module DonnaClient
         next_view = @views[@current_view].new.take_control
 
         return if next_view.nil?
-        return if cant_find_view next_view
+        return unless view? next_view
+
         @current_view = next_view
       end
     end

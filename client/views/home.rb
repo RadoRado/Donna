@@ -1,15 +1,13 @@
 module DonnaClient
   module Views
     class Home < DonnaClient::Views::BaseView
-
       def take_control
         loop do
           puts render({})
-          command = STDIN.gets
-          command = command.strip
+          command = STDIN.gets.strip
 
-          return :login if command == "login"
-          return :register if command == "register"
+          return :login if command == 'login'
+          return :register if command == 'register'
         end
       end
     end

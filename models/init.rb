@@ -1,3 +1,4 @@
+require_relative 'date_helper'
 require_relative 'user.rb'
 require_relative 'contact.rb'
 require_relative 'ping_rule.rb'

@@ -18,8 +18,8 @@ class Donna < Sinatra::Base
     result = []
 
     pings = Ping.all.order(:target_day).select do |ping|
-      for_user = ping.ping_rule.user.id == params['user_id']
-      for_user && ping_between(ping, today, pings_until)
+      for_user = ping.ping_rule.user.id == params['user_id'].to_i
+      for_user && ping.between(today, pings_until)
     end
 
     pings.each do |ping|
@@ -39,7 +39,7 @@ class Donna < Sinatra::Base
   # Should be done elswhere, not on HTTP call
   # But this will be fixed in the future
   post '/ping/create' do
-    require_fields = %w(contact_id, times_a_month, consecutive_months, schedule)
+    require_fields = %w(contact_id times_a_month consecutive_months schedule)
 
     unless require_fields.all? { |key| @request_data.key? key }
       halt_with_message(400, 'Missing fields')

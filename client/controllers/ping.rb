@@ -10,7 +10,7 @@ module DonnaClient
 
         return nil unless r.status == 200
 
-        JSON.parse(r.body.to_s)['ping']
+        JSON.parse(r.body.to_s)['pings']
       end
     end
   end

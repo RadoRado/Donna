@@ -13,7 +13,7 @@ class Donna < Sinatra::Base
   end
 
   post '/user/register' do
-    unless %w(name, email, password).all? { |key| @request_data.key? key }
+    unless %w(name email password).all? { |key| @request_data.key? key }
       halt_with_message(400, 'Missing fields')
     end
 
@@ -34,13 +34,13 @@ class Donna < Sinatra::Base
   end
 
   post '/user/login' do
-    unless %w(email, password).all? { |key| @request_data.key? key }
+    unless %w(email password).all? { |key| @request_data.key? key }
       halt_with_message(400, 'Missing fields')
     end
 
     user = User.find_by email: @request_data['email']
 
-    halt_with_message(404, 'User not found') unless User
+    halt_with_message(404, 'User not found') unless user
 
     unless user.password == BCrypt::Engine.hash_secret(
       @request_data['password'],

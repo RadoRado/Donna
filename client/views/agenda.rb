@@ -15,6 +15,7 @@ module DonnaClient
         puts render agenda: agenda, weeks: weeks
 
         STDIN.gets
+        :profile
       end
     end
   end

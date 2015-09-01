@@ -46,7 +46,6 @@ module DonnaClient
 
         ping_payload[:contact_id] = contact_id
         ping = DonnaClient::Controllers::Ping.make_a_ping ping_payload
-
         puts "Ping created. Rest assured that you will be reminded"
         puts "Ping set for #{ping["target_day"]}"
 

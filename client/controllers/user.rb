@@ -22,6 +22,7 @@ module DonnaClient
         r = HTTP.post(DonnaClient::State['api_url'] + '/user/register', json: payload)
         p r.status
         p JSON.parse(r.body.to_s)
+        sleep 10
       end
 
       def login(email, password)
