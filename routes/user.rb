@@ -13,7 +13,7 @@ class Donna < Sinatra::Base
   end
 
   post '/user/register' do
-    unless %w(name email password).all? { |key| @request_data.key? key }
+    unless has_params(%w(name email password), @request_data)
       halt_with_message(400, 'Missing fields')
     end
 
@@ -34,7 +34,7 @@ class Donna < Sinatra::Base
   end
 
   post '/user/login' do
-    unless %w(email password).all? { |key| @request_data.key? key }
+    unless has_params(%w(email password), @request_data)
       halt_with_message(400, 'Missing fields')
     end
 
