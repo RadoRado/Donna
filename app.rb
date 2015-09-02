@@ -13,7 +13,6 @@ class Donna < Sinatra::Base
   register Sinatra::ActiveRecordExtension
 
   helpers Sinatra::HaltHelper
-  helpers Sinatra::PingHelper
 
   config_file 'config/local_settings.yml'
 end
